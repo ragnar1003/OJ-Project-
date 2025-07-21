@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:3000"; // Change if backend runs elsewhere
+const API_BASE = "http://localhost:3000"; 
 
 export async function register(data) {
   const res = await fetch(`${API_BASE}/register`, {
