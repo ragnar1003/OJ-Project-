@@ -4,6 +4,7 @@ import DBconnection from "./database/db.js";
 import cors from "cors";
 import dotenv from "dotenv";
 import authRoutes from "./routes/authRoutes.js";
+import codeRoutes from "./routes/codeRoutes.js";
 
 dotenv.config();
 
@@ -19,6 +20,9 @@ app.get("/", (req, res) => {
 
 // Use the auth routes
 app.use("/", authRoutes);
+
+//run route 
+app.use("/",codeRoutes);
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");

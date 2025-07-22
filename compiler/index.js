@@ -10,14 +10,14 @@ app.get("/",(req,res) =>{
 });
 
 app.post("/run",async (req,res)=>{
-    const {code,language = 'cpp', input = ''} = req.body;
-    if(!code || !language){
+    const {code,lang = 'cpp', input = ''} = req.body;
+    if(!code || !lang){
         return res.status(400).json({error: "Code and language are required"});
     }
     try{
-        const filePath = await GenerateFile(code,language);
+        const filePath = await GenerateFile(code,lang);
         const inputfilePath = await GenerateInputFile(input);
-        const output = await ExecuteCode(filePath, inputfilePath, language);
+        const output = await ExecuteCode(filePath, inputfilePath, lang);
         //res.status(200).json({message: "File generated successfully", filePath});
         res.send({output});
 
@@ -27,7 +27,7 @@ app.post("/run",async (req,res)=>{
     }
 })
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT,()=>{
     console.log(`Server is running on port ${PORT}`);
 });
