@@ -5,6 +5,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import authRoutes from "./routes/authRoutes.js";
 import codeRoutes from "./routes/codeRoutes.js";
+import problemRoutes from "./routes/problemRoutes.js";
 
 dotenv.config();
 
@@ -23,6 +24,8 @@ app.use("/", authRoutes);
 
 //run route 
 app.use("/",codeRoutes);
+
+app.use("/",problemRoutes);
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
