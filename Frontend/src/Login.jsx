@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { login } from "./api";
+import { useNavigate } from "react-router-dom";
 
 export default function Login({ onAuth }) {
   const [form, setForm] = useState({ email: "", password: "" });
   const [msg, setMsg] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -13,6 +15,7 @@ export default function Login({ onAuth }) {
     if (res.user) {
       setMsg("Login successful!");
       onAuth(res.user);
+      navigate("/problems");
     } else {
       setMsg(res.message || "Login failed");
     }
@@ -52,8 +55,9 @@ export default function Login({ onAuth }) {
         >
           Login
         </button>
-
-        <div className="text-center text-sm text-red-600">{msg}</div>
+        {msg && msg !== "Login successful!" && (
+          <p className="text-red-500 text-center">{msg}</p>
+        )}
       </form>
     </div>
   );
