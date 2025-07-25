@@ -1,27 +1,39 @@
 import { useState } from "react";
 import { run } from "./api";
-export default function Compiler() {
-  const [code, setCode] = useState(`#include <iostream>\nusing namespace std;\nint main() {\n  cout << "Hello, World!" << endl;\n  return 0;\n}`);
+
+export default function Compiler(object) {
+  const { sampleinput, sampleoutput } = object;
+
+  const [code, setCode] = useState(`#include <iostream>\nusing namespace std;\nint main() {\n  cout << "Hello, World!" << endl;\n  return 0;\n}`);
   const [output, setOutput] = useState("");
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState(sampleinput || "");
   const [lang, setLang] = useState("cpp");
   const [loading, setLoading] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
+  const [activeTab, setActiveTab] = useState("input"); // 'input', 'sampleOutput', 'output'
 
   const runCode = async () => {
     setLoading(true);
     try {
       const result = await run(code, lang, input);
       setOutput(result.output || JSON.stringify(result));
+      setActiveTab("output"); // Switch to output tab after running
     } catch (error) {
       setOutput("Error running code: " + error.message);
+      setActiveTab("output"); // Switch to output tab even on error
     }
     setLoading(false);
   };
 
+  const getTabClasses = (tabName) =>
+    `px-4 py-2 rounded-t-lg font-semibold ${
+      activeTab === tabName
+        ? "bg-indigo-600 text-white"
+        : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+    }`;
+
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
-      {/* Background image with blur + gradient */}
+      {/* Background image ... (unchanged) */}
       <div className="absolute inset-0">
         <img
           src="https://www.codingal.com/resources/wp-content/uploads/2022/10/1.jpg"
@@ -41,11 +53,11 @@ export default function Compiler() {
               const val = e.target.value;
               setLang(val);
               if (val === "cpp") {
-                setCode(`#include <iostream>\nusing namespace std;\nint main() {\n  cout << "Hello, World!" << endl;\n  return 0;\n}`);
+                setCode(`#include <iostream>\nusing namespace std;\nint main() {\n  cout << "Hello, World!" << endl;\n  return 0;\n}`);
               } else if (val === "py") {
                 setCode("print('Hello, World!')");
               } else if (val === "java") {
-                setCode(`public class Main {\n  public static void main(String[] args) {\n    System.out.println("Hello, World!");\n  }\n}`);
+                setCode(`public class Main {\n  public static void main(String[] args) {\n    System.out.println("Hello, World!");\n  }\n}`);
               }
             }}
             value={lang}
@@ -63,36 +75,64 @@ export default function Compiler() {
           onChange={(e) => setCode(e.target.value)}
         />
 
-        <button
-          className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold py-2 px-4 rounded-lg hover:from-purple-600 hover:to-indigo-500 transition mb-4"
-          onClick={runCode}
-          disabled={loading}
-        >
-          {loading ? "Running..." : "Run"}
-        </button>
+        {/* Buttons next to each other */}
+        <div className="flex space-x-4 mb-4">
+          <button
+            className="flex-1 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold py-2 px-4 rounded-lg hover:from-purple-600 hover:to-indigo-500 transition"
+            onClick={runCode}
+            disabled={loading}
+          >
+            {loading ? "Running..." : "Run"}
+          </button>
+        </div>
 
-        <button
-          className="w-full text-white bg-gradient-to-r from-indigo-400 to-purple-500 font-semibold py-2 px-4 rounded-lg hover:opacity-90 transition mb-4"
-          onClick={() => setIsVisible(!isVisible)}
-        >
-          {isVisible ? "Hide Input" : "Show Input"}
-        </button>
+        {/* Tab Navigation */}
+        <div className="flex border-b border-gray-300 mb-4">
+          <button
+            className={getTabClasses("input")}
+            onClick={() => setActiveTab("input")}
+          >
+            Input
+          </button>
+          {sampleoutput && ( // Only show Sample Output tab if prop exists
+            <button
+              className={getTabClasses("sampleOutput")}
+              onClick={() => setActiveTab("sampleOutput")}
+            >
+              Sample Output
+            </button>
+          )}
+          <button
+            className={getTabClasses("output")}
+            onClick={() => setActiveTab("output")}
+          >
+            Output
+          </button>
+        </div>
 
-        {isVisible && (
-          <textarea
-            rows={5}
-            className="w-full font-mono text-sm p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-4 text-black"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Custom Input"
-          />
-        )}
+        {/* Tab Content */}
+        <div className="p-4 bg-gray-100 rounded-md">
+          {activeTab === "input" && (
+            <textarea
+              rows={5}
+              className="w-full font-mono text-sm p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-4 text-black"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Custom Input"
+            />
+          )}
 
-        <div>
-          <strong className="text-indigo-600">Output:</strong>
-          <pre className="mt-2 bg-gray-100 p-4 rounded-md text-sm text-gray-800 whitespace-pre-wrap">
-            {output}
-          </pre>
+          {activeTab === "sampleOutput" && sampleoutput && (
+            <pre className="text-sm text-gray-800 whitespace-pre-wrap">
+              {sampleoutput}
+            </pre>
+          )}
+
+          {activeTab === "output" && (
+            <pre className="text-sm text-gray-800 whitespace-pre-wrap">
+              {output}
+            </pre>
+          )}
         </div>
       </div>
     </div>
