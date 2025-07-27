@@ -10,7 +10,7 @@ export const getProblem = async (req, res) => {
     try {
         const { id } = req.body || req.query || {};
         if (id) {
-            console.log("Fetching problem with ID:", id);
+            //console.log("Fetching problem with ID:", id);
             const problem = await fetchProblemById(id);
             if (!problem) {
                 return res.status(404).json({ error: "Problem not found" });

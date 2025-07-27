@@ -7,6 +7,7 @@ import authRoutes from "./routes/authRoutes.js";
 import codeRoutes from "./routes/codeRoutes.js";
 import problemRoutes from "./routes/problemRoutes.js";
 import verdictRoutes from "./routes/verdictRoutes.js";
+import aiRoutes from "./routes/aiRoutes.js";
 dotenv.config();
 
 const app = express();
@@ -31,7 +32,7 @@ app.use("/",problemRoutes);
 
 app.use("/",verdictRoutes);
 
-
+app.use("/",aiRoutes);
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
