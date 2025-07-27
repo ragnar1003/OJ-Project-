@@ -1,11 +1,17 @@
 import Problem from '../model/Problem.js';
 
+export const fetchProblemById = async (id) => {
+    if (!id) return null;
+    const problem = await Problem.findById(id);
+    return problem;
+};
+
 export const getProblem = async (req, res) => {
     try {
-        const { id } = req.query;
+        const { id } = req.body || req.query || {};
         if (id) {
             console.log("Fetching problem with ID:", id);
-            const problem = await Problem.findById(id);
+            const problem = await fetchProblemById(id);
             if (!problem) {
                 return res.status(404).json({ error: "Problem not found" });
             }

@@ -5,11 +5,14 @@ import { useNavigate } from "react-router-dom";
 export default function Login({ onAuth }) {
   const [form, setForm] = useState({ email: "", password: "" });
   const [msg, setMsg] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async e => {
+    setMsg("");
+    setLoading(true);
     e.preventDefault();
     const res = await login(form);
     if (res.user) {
@@ -19,6 +22,7 @@ export default function Login({ onAuth }) {
     } else {
       setMsg(res.message || "Login failed");
     }
+    setLoading(false);        
   };
 
   return (
@@ -52,8 +56,9 @@ export default function Login({ onAuth }) {
         <button
           type="submit"
           className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold py-2 px-4 rounded-lg hover:from-purple-600 hover:to-indigo-500 transition"
+          
         >
-          Login
+          {loading ? "Logging in..." : "Login"}
         </button>
         {msg && msg !== "Login successful!" && (
           <p className="text-red-500 text-center">{msg}</p>

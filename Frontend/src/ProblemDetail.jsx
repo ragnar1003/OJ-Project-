@@ -33,7 +33,7 @@ export default function ProblemDetail() {
         <p>{problem.description}</p>
       </div>
       <div className="w-1/2">
-        <Compiler sampleinput={input} sampleoutput={output} />
+        <Compiler sampleinput={input} sampleoutput={output} id={id} />
       </div>
     </div>
   );

@@ -8,12 +8,15 @@ export default function Register({ onAuth }) {
     email: "",
     password: ""
   });
+  const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
 
   const handleChange = e =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async e => {
+    setLoading(true);
+    setMsg("");
     e.preventDefault();
     const res = await register(form);
     if (res.user) {
@@ -22,6 +25,7 @@ export default function Register({ onAuth }) {
     } else {
       setMsg(res.message || "Registration failed");
     }
+    setLoading(false);
   };
 
   return (
@@ -75,7 +79,7 @@ export default function Register({ onAuth }) {
           type="submit"
           className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold py-2 px-4 rounded-lg hover:from-purple-600 hover:to-indigo-500 transition"
         >
-          Register
+          {loading ? "Registering..." : "Register"}
         </button>
 
         <div className="text-center text-sm text-red-600">{msg}</div>

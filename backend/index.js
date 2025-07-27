@@ -15,6 +15,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 DBconnection();
 
+
+
 app.get("/", (req, res) => {
   res.send("Hello World");
 });
@@ -28,6 +30,8 @@ app.use("/",codeRoutes);
 app.use("/",problemRoutes);
 
 app.use("/",verdictRoutes);
+
+
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");

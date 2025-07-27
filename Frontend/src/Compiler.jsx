@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { run } from "./api";
+import { run,verdict } from "./api";
 
 export default function Compiler(object) {
   const { sampleinput, sampleoutput } = object;
@@ -9,7 +9,9 @@ export default function Compiler(object) {
   const [input, setInput] = useState(sampleinput || "");
   const [lang, setLang] = useState("cpp");
   const [loading, setLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState("input"); // 'input', 'sampleOutput', 'output'
+  const [submitloading, setSubmitLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState("input");
+   const[verdict, setVerdict] = useState("");
 
   const runCode = async () => {
     setLoading(true);
@@ -23,7 +25,18 @@ export default function Compiler(object) {
     }
     setLoading(false);
   };
-
+   const submitCode = async () => {
+    setSubmitLoading(true);
+    try {
+      const result = await verdict(code, lang, input);
+      setVerdict(result.output || JSON.stringify(result)); 
+      setActiveTab("verdict"); 
+    } catch (error) {
+      setVerdict("Error submitting code: " + error.message);
+      setActiveTab("verdict"); 
+    }
+    setSubmitLoading(false);
+  };
   const getTabClasses = (tabName) =>
     `px-4 py-2 rounded-t-lg font-semibold ${
       activeTab === tabName
@@ -84,6 +97,14 @@ export default function Compiler(object) {
           >
             {loading ? "Running..." : "Run"}
           </button>
+          <button
+            className="flex-1 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold py-2 px-4 rounded-lg hover:from-purple-600 hover:to-indigo-500 transition"
+            onClick={submitCode}
+            disabled={submitloading}
+          >
+            {loading ? "Submitting..." : "Submit"}
+          </button>
+          
         </div>
 
         {/* Tab Navigation */}

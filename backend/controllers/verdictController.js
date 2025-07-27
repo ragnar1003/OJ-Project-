@@ -1,16 +1,26 @@
-import Problem from "../model/Problem.js";
+import { fetchProblemById } from "./problemController.js";
 import { run } from "./codeController.js";
 
 export const getVerdict = async (req, res) => {
+    
     try {
-        const { code, lang, id } = req.query;
-        if (!id) {
-            return res.status(400).json({ error: "Problem not found" });
+        const { code, lang, id } = req.body || req.query || {};
+
+        // --- FIX: Add validation for code and lang ---
+        if (!code || !lang) {
+            return res.status(400).json({ error: "Code and language are required" });
         }
-        const problem = await Problem.findById(id);
+        // --- End of Fix ---
+
+        if (!id) {
+            return res.status(400).json({ error: "Problem ID is required" });
+        }
+        
+        const problem = await fetchProblemById(id);
         if (!problem) {
             return res.status(404).json({ error: "Problem not found" });
         }
+        
         const { sampleTestCases, judgeTestCases } = problem;
         let verdict = "Accepted";
 
