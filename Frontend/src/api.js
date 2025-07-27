@@ -41,6 +41,17 @@ export async function verdict(code, lang, id) {
   });
   return res.json();
 }
+export async function aisuggestion(code,id) {
+  if (!id) {
+    throw new Error("Problem ID is required for AI suggestion");
+  }
+  const res = await fetch(`${API_BASE}/ai`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ code,id }),
+  });
+  return res.json();
+}
 
 export async function allProblem(){
   const res = await fetch(`${API_BASE}/problem`, {
