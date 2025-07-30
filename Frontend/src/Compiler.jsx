@@ -1,6 +1,8 @@
 import { useState,useEffect} from "react";
 import { run, verdict as getVerdict } from "./api";
-
+import Editor from "@monaco-editor/react";
+import dark from "./assets/dark.svg";
+import light from "./assets/light.svg";
 export default function Compiler({
   sampleinput,
   sampleoutput,
@@ -17,6 +19,7 @@ export default function Compiler({
   const [loading, setLoading] = useState(false);
   const [submitloading, setSubmitLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("input");
+  const [theme, setTheme] = useState("vs-dark");
 
    useEffect(() => {
 
@@ -83,13 +86,31 @@ export default function Compiler({
   };
 
   return (
+
     <div className="relative z-10 w-full bg-white/90 backdrop-blur-xl p-8 rounded-2xl shadow-2xl">
       <div className="mb-6">
+        
         <h2 className="text-2xl font-bold text-indigo-600 mb-2 text-center">
           Online Compiler
+         
         </h2>
+         <div className="flex items-center justify-center space-x-4 mb-4">
+          
+          <button
+            onClick={() => setTheme("vs-light")}
+            className="bg-white border border-gray-300 rounded-lg p-2 hover:bg-gray-100 transition-colors "
+          >
+            <img src={light} alt="Light Theme" className="max-h-5 max-w-5"/>
+          </button>
+          <button
+            onClick={() => setTheme("vs-dark")}
+            className="bg-white border border-gray-300 rounded-lg p-2 hover:bg-gray-100 transition-colors "
+          >
+            <img src={dark} alt="Dark Theme" className="max-h-5 max-w-5"/>
+          </button>
+        </div>
         <select
-          className="w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-4 text-black"
+          className="w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-0 text-black"
           onChange={(e) => {
             const val = e.target.value;
             setLang(val);
@@ -100,14 +121,24 @@ export default function Compiler({
           <option value="py">Python</option>
           <option value="java">Java</option>
         </select>
+        
       </div>
-
-      <textarea
-        rows={10}
-        className="w-full font-mono text-sm p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-4 text-black"
-        value={code} // Use code from props
-        onChange={(e) => setCode(e.target.value)} // Use setCode from props
-      />
+    
+      <div className="w-full rounded-lg border border-gray-300 mb-4 overflow-hidden">
+  <Editor
+    height="20rem" // Or adjust to match your old `rows={10}` height
+    defaultLanguage={lang} // Set a default or make it dynamic
+    theme={theme} // Popular dark theme, or use "light"
+    value={code} // Use the 'code' prop from your state
+    onChange={setCode} // Directly pass the 'setCode' function
+    options={{
+      minimap: { enabled: false }, // Hides the side minimap
+      fontSize: 14, // Sets the font size
+      wordWrap: "on", // Enables word wrapping
+      scrollBeyondLastLine: false, // Disables scrolling past the last line
+    }}
+  />
+</div>
 
       <div className="flex space-x-4 mb-4">
         <button
