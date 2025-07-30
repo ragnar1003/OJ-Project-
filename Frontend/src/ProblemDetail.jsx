@@ -16,6 +16,10 @@ export default function ProblemDetail() {
   // --- END LIFTED STATE ---
 
   useEffect(() => {
+    setVerdict("");
+    setAiSuggestion("");
+    // Reset code to the default boilerplate. This assumes C++ is the default.
+    setCode(`#include <iostream>\nusing namespace std;\nint main() {\n  // Your code here\n}`);
     async function fetchProblem() {
       const data = await problemById(id);
       setProblem(data);

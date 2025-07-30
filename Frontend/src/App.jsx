@@ -4,6 +4,7 @@ import Register from "./Register";
 import Login from "./Login";
 import Compiler from "./Compiler";
 import ProblemList from "./ProblemList";
+import SimpleCompiler from "./SimpleCompiler";
 import ProblemDetail from "./ProblemDetail";
 import "./App.css";
 
@@ -63,7 +64,7 @@ function App() {
             />
             <Route
               path="/compiler"
-              element={<Compiler />}
+              element={<SimpleCompiler />}
             />
             <Route
               path="/login"
