@@ -19,7 +19,10 @@ app.post("/run",async (req,res)=>{
         const inputfilePath = await GenerateInputFile(input);
         const output = await ExecuteCode(filePath, inputfilePath, lang);
         //res.status(200).json({message: "File generated successfully", filePath});
-        res.send({output});
+        if(output instanceof Error) {
+            throw output;
+        }
+        res.json({output});
 
     }catch(err){
         console.error("Error generating file:", err);

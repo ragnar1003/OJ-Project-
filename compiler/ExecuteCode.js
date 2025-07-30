@@ -27,13 +27,19 @@ const ExecuteCode = async (filePath, inputFilePath, language) => {
 
     try {
         const output = await new Promise((resolve, reject) => {
-            exec(command, (error, stdout, stderr) => {
-                if (error) {
-                    console.error("Execution error:", error);
-                    reject(`Error executing code: ${stderr}`);
-                } else {
-                    resolve(stdout.trim());
+            exec(command, {timeout: 2000}, (error, stdout, stderr) => {
+                 if (error) {
+                    if(error.signal === 'SIGTERM') {
+                        return reject("Time Limit Exceeded");
+                    }
+                   
+                    return reject(`Error executing code: ${stderr}`);
                 }
+                if(stderr) {
+                    return reject(`Error: ${stderr}`);
+                }
+                 
+                    resolve(stdout.trim());
             });
         });
         return output;
