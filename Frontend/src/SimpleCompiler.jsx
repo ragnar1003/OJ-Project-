@@ -21,6 +21,7 @@ export default function StandaloneCompilerPage() {
                 sampleinput=""
                 sampleoutput=""
                 id={null}
+                showSubmitButton = {false}
             />
         </div>
     </div>
