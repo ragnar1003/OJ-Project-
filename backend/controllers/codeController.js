@@ -1,6 +1,8 @@
 import fetch from "node-fetch";
+import dotenv from "dotenv";
 
-const API_COMPILER = "http://localhost:5000";
+dotenv.config();
+const API_COMPILER = process.env.API_COMPILER;
 
 export async function run(req, res) {
     try {

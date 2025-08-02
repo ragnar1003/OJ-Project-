@@ -20,7 +20,7 @@ function App() {
       <div className="min-h-screen bg-gray-900 text-white">
         {/* Navbar */}
         <nav className="bg-gradient-to-r from-indigo-500 to-purple-600 px-6 py-4 shadow-md flex justify-between items-center">
-          <h1 className="text-xl font-bold text-white">CodeAlgo</h1>
+          <h1 className="text-xl font-bold text-white">Algobaazi</h1>
           <div className="space-x-4">
             <Link
               to="/compiler"
