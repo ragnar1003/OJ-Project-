@@ -18,7 +18,7 @@ const ExecuteCode = async (filePath, inputFilePath, language) => {
     if (language === 'cpp') {
         command = `g++ "${filePath}" -o "${path.join(dirOutput, jobid)}" && "${path.join(dirOutput, jobid)}" < "${inputFilePath}"`;
     } else if (language === 'py') {
-        command = `"D:\\AlgoClasses\\python.exe" "${filePath}" < "${inputFilePath}"`;
+        command = `python3 "${filePath}" < "${inputFilePath}"`;
     } else if (language === 'java') {
         command = `java "${filePath}" < "${inputFilePath}"`;
     } else {
@@ -26,7 +26,7 @@ const ExecuteCode = async (filePath, inputFilePath, language) => {
     }
 
     try {
-        const output = await new Promise((resolve, reject) => {
+        var output = await new Promise((resolve, reject) => {
             exec(command, {timeout: 2000}, (error, stdout, stderr) => {
                  if (error) {
                     if(error.signal === 'SIGTERM') {
@@ -42,6 +42,10 @@ const ExecuteCode = async (filePath, inputFilePath, language) => {
                     resolve(stdout.trim());
             });
         });
+        if (output === "") {
+            output = "[No output produced by the code]"; 
+        }
+        
         return output;
     } catch (err) {
         
