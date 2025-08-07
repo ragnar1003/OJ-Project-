@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from "react-router-dom";
 import Register from "./Register";
 import Login from "./Login";
@@ -7,14 +7,30 @@ import ProblemList from "./ProblemList";
 import SimpleCompiler from "./SimpleCompiler";
 import ProblemDetail from "./ProblemDetail";
 import "./App.css";
+import { logout,checkSession } from "./api";
+
 
 function App() {
   const [user, setUser] = useState(null);
-
+  const [loading,setLoading] = useState(true);
+  useEffect(() => {
+    const verifySession = async()=>{
+          try{const userData = await checkSession();
+          setUser(userData);}catch(err){
+            setUser(null);
+          }
+          setLoading(false);
+    };
+    verifySession();
+  },[]);
   const handleLogout = () => {
+       logout();
     setUser(null);
-  };
 
+  };
+    if(loading){
+       return <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">Loading...</div>;
+    }
   return (
     <Router>
       <div className="min-h-screen bg-gray-900 text-white">

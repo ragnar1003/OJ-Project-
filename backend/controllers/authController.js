@@ -2,6 +2,7 @@ import bcrpyt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../model/User.js";
 
+
 export const register = async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body;
@@ -30,10 +31,16 @@ export const register = async (req, res) => {
     });
     user.token = token;
     user.password = undefined;
-    res.status(201).json({
+    res.status(200).cookie('token',token,{
+      httpOnly:true,
+      secure:process.env.NODE_ENV === "production",
+      sameSite:'strict',
+      maxAge: 24*60*60*1000
+    }).json({
       message: "User registered successfully",
       user
     });
+    
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Internal server error" });
@@ -58,8 +65,23 @@ export const login = async (req, res) => {
   });
   user.token = token;
   user.password = undefined;
-  res.status(200).json({
-    message: "Login successful",
+  res.status(200).cookie('token',token,{
+    httpOnly:true,
+    secure:process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    maxAge: 24*60*60*1000
+  }).json({
+    message:"Login Successful",
     user
-  });
+  })
+  
+};
+
+export const logout = (req,res) =>{
+  res.clearCookie('token').status(200).json({message:"Logout Successful"});
+}
+
+export const checkSession = async (req, res) => {
+  
+  res.status(200).json(req.user);
 };

@@ -4,6 +4,7 @@ export async function register(data) {
   const res = await fetch(`${API_BASE}/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
+    credentials:'include',
     body: JSON.stringify(data),
   });
   return res.json();
@@ -13,6 +14,7 @@ export async function login(data) {
   const res = await fetch(`${API_BASE}/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
+    credentials:'include',
     body: JSON.stringify(data),
   });
   if (!res.ok) {
@@ -22,10 +24,31 @@ export async function login(data) {
   return res.json();
 }
 
+export async function checkSession(){
+  const res = await fetch(`${API_BASE}/me`,{
+    method: "GET",
+    credentials:'include',
+    headers:{'Content-Type':'application/json'},
+  });
+  if(!res.ok){
+    return {message: 'Session expired or invalid'}
+    }
+    return res.json();
+}
+export async function logout(){
+  const res = await fetch(`${API_BASE}/logout`,{
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials:'include',
+
+  })
+  return res.json();
+}
 export async function run(code, lang, input) {
   const res = await fetch(`${API_BASE}/run`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
+    credentials:'include',
     body: JSON.stringify({ code, lang, input }),
   });
   return res.json();
@@ -37,6 +60,7 @@ export async function verdict(code, lang, id) {
   const res = await fetch(`${API_BASE}/verdict`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
+    credentials:'include',
     body: JSON.stringify({ code, lang, id }),
   });
   return res.json();
@@ -48,6 +72,7 @@ export async function aisuggestion(code,id) {
   const res = await fetch(`${API_BASE}/ai`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
+    credentials:'include',
     body: JSON.stringify({ code,id }),
   });
   return res.json();
@@ -57,6 +82,7 @@ export async function allProblem(){
   const res = await fetch(`${API_BASE}/problem`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
+    credentials:'include',
   });
   return res.json();
 }
@@ -64,6 +90,7 @@ export async function problemById(id) {
   const res = await fetch(`${API_BASE}/problem?id=${id}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
+    credentials:'include'
   });
   return res.json();
 }

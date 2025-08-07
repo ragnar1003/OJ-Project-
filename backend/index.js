@@ -3,17 +3,25 @@ import express from "express";
 import DBconnection from "./database/db.js";
 import cors from "cors";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 import authRoutes from "./routes/authRoutes.js";
 import codeRoutes from "./routes/codeRoutes.js";
 import problemRoutes from "./routes/problemRoutes.js";
 import verdictRoutes from "./routes/verdictRoutes.js";
 import aiRoutes from "./routes/aiRoutes.js";
+import { protect } from "./middleware/authMiddleware.js";
 dotenv.config();
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true
+}));
+
+app.use(cookieParser());
+
 DBconnection();
 
 
@@ -28,11 +36,11 @@ app.use("/", authRoutes);
 //run route 
 app.use("/",codeRoutes);
 
-app.use("/",problemRoutes);
+app.use("/",protect,problemRoutes);
 
-app.use("/",verdictRoutes);
+app.use("/",protect,verdictRoutes);
 
-app.use("/",aiRoutes);
+app.use("/",protect,aiRoutes);
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
