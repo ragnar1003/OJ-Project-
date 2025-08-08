@@ -6,6 +6,7 @@ import Compiler from "./Compiler";
 import ProblemList from "./ProblemList";
 import SimpleCompiler from "./SimpleCompiler";
 import ProblemDetail from "./ProblemDetail";
+import Home from "./Home";
 import "./App.css";
 import { logout,checkSession } from "./api";
 
@@ -31,12 +32,13 @@ function App() {
     if(loading){
        return <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">Loading...</div>;
     }
+    
   return (
     <Router>
       <div className="min-h-screen bg-gray-900 text-white">
         {/* Navbar */}
         <nav className="bg-gradient-to-r from-indigo-500 to-purple-600 px-6 py-4 shadow-md flex justify-between items-center">
-          <h1 className="text-xl font-bold text-white">Algobaazi</h1>
+           <Link to="/" className="text-xl font-bold text-white">Algobaazi</Link>
           <div className="space-x-4">
             <Link
               to="/compiler"
@@ -44,6 +46,13 @@ function App() {
             >
               Compiler
             </Link>
+            {
+              user && (
+                <Link to= "/problems" className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg font-medium transition">
+                  Problems
+                  </Link>
+              )
+            }
             {!user && (
               <>
                 <Link
@@ -76,7 +85,7 @@ function App() {
           <Routes>
             <Route
               path="/"
-              element={user ? <Navigate to="/problems" /> : <Navigate to="/login" />}
+              element={<Home/>}
             />
             <Route
               path="/compiler"
