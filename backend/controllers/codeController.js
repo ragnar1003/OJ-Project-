@@ -7,7 +7,9 @@ const API_COMPILER = process.env.API_COMPILER;
 export async function run(req, res) {
     try {
         const data = req.body;
-        const response = await fetch(`${API_COMPILER}/run`, {
+        const url = `${API_COMPILER}/run`;
+        //console.log("Calling compiler service at:", url);
+        const response = await fetch(url, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),

@@ -25,7 +25,7 @@ export async function login(data) {
 }
 
 export async function checkSession(){
-  const res = await fetch(`${API_BASE}/me`,{
+  const res = await fetch(`${API_BASE}/profile`,{
     method: "GET",
     credentials:'include',
     headers:{'Content-Type':'application/json'},
@@ -42,6 +42,17 @@ export async function logout(){
     credentials:'include',
 
   })
+  return res.json();
+}
+export async function getProfile() {
+  const res = await fetch(`${API_BASE}/profile`,{
+    method: "GET",
+    credentials:'include',
+    headers:{"Content-Type":"application/json"}
+  })
+  if(!res.ok){
+    throw new Error("Failed to fetch profile data");
+  }
   return res.json();
 }
 export async function run(code, lang, input) {

@@ -42,7 +42,7 @@ export default function Home() {
         
         <div className="flex justify-center space-x-6">
           <Link
-            to="/problems"
+            to="/problem"
             className="bg-indigo-600/80 text-white font-semibold py-3 px-8 rounded-lg text-lg hover:bg-indigo-600 transition-transform transform hover:scale-105 shadow-lg"
           >
             View Problems

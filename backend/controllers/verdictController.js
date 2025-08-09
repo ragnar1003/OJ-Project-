@@ -1,10 +1,12 @@
 import { fetchProblemById } from "./problemController.js";
 import { run } from "./codeController.js";
+import Submission from "../model/Submission.js";
 
 
 export const getVerdict = async (req, res) => {
     try {
         const { code, lang, id } = req.body;
+        const {id:userId} = req.user;
 
         if (!code || !lang || !id) {
             return res.status(400).json({ error: "Code, language, and Problem ID are required" });
@@ -72,6 +74,14 @@ export const getVerdict = async (req, res) => {
                 break;
             }
         }
+        const newSubmission = new Submission({
+            userId,
+            problemId:id,
+            code,
+            language:lang,
+            verdict:verdict
+        });
+        await newSubmission.save();
         
         res.status(200).json({ verdict });
 

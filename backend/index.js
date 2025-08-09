@@ -9,6 +9,7 @@ import codeRoutes from "./routes/codeRoutes.js";
 import problemRoutes from "./routes/problemRoutes.js";
 import verdictRoutes from "./routes/verdictRoutes.js";
 import aiRoutes from "./routes/aiRoutes.js";
+import submissionRoutes from "./routes/submissionRoutes.js";
 import { protect } from "./middleware/authMiddleware.js";
 dotenv.config();
 
@@ -41,6 +42,8 @@ app.use("/",protect,problemRoutes);
 app.use("/",protect,verdictRoutes);
 
 app.use("/",protect,aiRoutes);
+
+app.use("/",protect,submissionRoutes);
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
