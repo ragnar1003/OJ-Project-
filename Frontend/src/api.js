@@ -32,9 +32,9 @@ export async function checkSession(){
     headers:{'Content-Type':'application/json'},
   });
   if(!res.ok){
-    return {message: 'Session expired or invalid'}
+    return {user:null};
     }
-    return res.json();
+    return await res.json();
 }
 export async function logout(){
   const res = await fetch(`${API_BASE}/logout`,{

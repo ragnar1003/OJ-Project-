@@ -16,7 +16,10 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-  origin: 'https://algobaazi.vercel.app',
+  origin: [
+    "https://algobaazi.vercel.app",
+    "http://localhost:5173"
+  ],
   credentials: true
 }));
 

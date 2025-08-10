@@ -18,7 +18,7 @@ export default function Login({ onAuth }) {
     if (res.user) {
       setMsg("Login successful!");
       onAuth(res.user);
-      navigate("/problems");
+      navigate("/problem");
     } else {
       setMsg(res.message || "Login failed");
     }

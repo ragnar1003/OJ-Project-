@@ -15,7 +15,7 @@ export default function ProblemList() {
   }, []);
 
   const handleProblemClick = (problemId) => {
-    navigate(`/problems/${problemId}`);
+    navigate(`/problem/${problemId}`);
   };
 
   return (

@@ -33,8 +33,8 @@ export const register = async (req, res) => {
     user.password = undefined;
     res.status(200).cookie('token',token,{
       httpOnly:true,
-      secure:process.env.NODE_ENV === "production",
-      sameSite:'none',
+      secure: process.env.NODE_ENV === "production" ? true : false,
+      sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax',
       maxAge: 24*60*60*1000
     }).json({
       message: "User registered successfully",
@@ -67,8 +67,8 @@ export const login = async (req, res) => {
   user.password = undefined;
   res.status(200).cookie('token',token,{
     httpOnly:true,
-    secure:process.env.NODE_ENV === 'production',
-    sameSite: 'none',
+    secure: process.env.NODE_ENV === 'production' ? true : false,
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
     maxAge: 24*60*60*1000
   }).json({
     message:"Login Successful",
@@ -82,6 +82,9 @@ export const logout = (req,res) =>{
 }
 
 export const checkSession = async (req, res) => {
-  
-  res.status(200).json(req.user);
+  if (req.user) {
+    res.status(200).json({ user: req.user });
+  } else {
+    res.status(200).json({ user: null });
+  }
 };

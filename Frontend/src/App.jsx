@@ -15,18 +15,22 @@ function App() {
   const [user, setUser] = useState(null);
   const [loading,setLoading] = useState(true);
   useEffect(() => {
-    const verifySession = async()=>{
-          try{const userData = await checkSession();
-          setUser(userData);}catch(err){
-            setUser(null);
-          }
-          setLoading(false);
-    };
-    verifySession();
-  },[]);
+  const verifySession = async () => {
+    try {
+      const userData = await checkSession();
+      console.log("Session check result:", userData); // <-- Add this
+      setUser(userData?.user ?? null); // Use .user if your backend returns { user: ... }
+    } catch (err) {
+      setUser(null);
+    }
+    setLoading(false);
+  };
+  verifySession();
+}, []);
   const handleLogout = () => {
-       logout();
     setUser(null);
+       logout();
+    
 
   };
     if(loading){
@@ -48,7 +52,7 @@ function App() {
             </Link>
             {
               user && (
-                <Link to= "/problems" className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg font-medium transition">
+                <Link to= "/problem" className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg font-medium transition">
                   Problems
                   </Link>
               )
@@ -93,18 +97,18 @@ function App() {
             />
             <Route
               path="/login"
-              element={!user ? <Login onAuth={setUser} /> : <Navigate to="/problems" />}
+              element={!user ? <Login onAuth={setUser} /> : <Navigate to="/problem" />}
             />
             <Route
               path="/register"
-              element={!user ? <Register onAuth={setUser} /> : <Navigate to="/problems" />}
+              element={!user ? <Register onAuth={setUser} /> : <Navigate to="/problem" />}
             />
             <Route
-              path="/problems"
+              path="/problem"
               element={user ? <ProblemList /> : <Navigate to="/login" />}
             />
             <Route
-              path="/problems/:id"
+              path="/problem/:id"
               element={user ? <ProblemDetail /> : <Navigate to="/login" />}
             />
           </Routes>
