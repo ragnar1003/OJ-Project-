@@ -2,7 +2,7 @@ const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:3000";
 
 
 export async function register(data) {
-  const res = await fetch(`${API_BASE}/register`, {
+  const res = await fetch(`${API_BASE}/api/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials:'include',
@@ -12,7 +12,7 @@ export async function register(data) {
 }
 
 export async function login(data) {
-  const res = await fetch(`${API_BASE}/login`, {
+  const res = await fetch(`${API_BASE}/api/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials:'include',
@@ -26,7 +26,7 @@ export async function login(data) {
 }
 
 export async function checkSession(){
-  const res = await fetch(`${API_BASE}/me`,{
+  const res = await fetch(`${API_BASE}/api/me`,{
     method: "GET",
     credentials:'include',
     headers:{'Content-Type':'application/json'},
@@ -37,7 +37,7 @@ export async function checkSession(){
     return await res.json();
 }
 export async function logout(){
-  const res = await fetch(`${API_BASE}/logout`,{
+  const res = await fetch(`${API_BASE}/api/logout`,{
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials:'include',
@@ -45,8 +45,25 @@ export async function logout(){
   })
   return res.json();
 }
+export async function getProfile() {
+  const res = await fetch(`${API_BASE}/api/profile`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+    credentials: 'include',
+  });
+  return res.json();
+}
+
+export async function getSubmissions() {
+  const res = await fetch(`${API_BASE}/api/submissions`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+    credentials: 'include',
+  });
+  return res.json();
+}
 export async function run(code, lang, input) {
-  const res = await fetch(`${API_BASE}/run`, {
+  const res = await fetch(`${API_BASE}/api/run`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials:'include',
@@ -55,10 +72,10 @@ export async function run(code, lang, input) {
   return res.json();
 }
 export async function verdict(code, lang, id) {
-  if (!id) {  
+  if (!id) {
     throw new Error("Problem ID is required for verdict submission");
   }
-  const res = await fetch(`${API_BASE}/verdict`, {
+  const res = await fetch(`${API_BASE}/api/verdict`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials:'include',
@@ -70,7 +87,7 @@ export async function aisuggestion(code,id) {
   if (!id) {
     throw new Error("Problem ID is required for AI suggestion");
   }
-  const res = await fetch(`${API_BASE}/ai`, {
+  const res = await fetch(`${API_BASE}/api/ai`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials:'include',
@@ -80,7 +97,7 @@ export async function aisuggestion(code,id) {
 }
 
 export async function allProblem(){
-  const res = await fetch(`${API_BASE}/problem`, {
+  const res = await fetch(`${API_BASE}/api/problem`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
     credentials:'include',
@@ -88,7 +105,7 @@ export async function allProblem(){
   return res.json();
 }
 export async function problemById(id) {
-  const res = await fetch(`${API_BASE}/problem?id=${id}`, {
+  const res = await fetch(`${API_BASE}/api/problem?id=${id}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
     credentials:'include'
