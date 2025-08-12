@@ -34,16 +34,19 @@ app.get("/", (req, res) => {
 });
 
 // Use the auth routes
-app.use("/", authRoutes);
+app.use("/api", authRoutes);
 
 //run route 
-app.use("/",codeRoutes);
+app.use("/api",codeRoutes);
 
-app.use("/",protect,problemRoutes);
+app.use("/api",protect,problemRoutes);
 
-app.use("/",protect,verdictRoutes);
+app.use("/api",protect,verdictRoutes);
 
-app.use("/",protect,aiRoutes);
+app.use("/api",protect,aiRoutes);
+
+import submissionRoutes from "./routes/submissionRoutes.js";
+app.use("/api/submissions", submissionRoutes);
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");

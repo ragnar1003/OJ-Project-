@@ -6,6 +6,7 @@ import Compiler from "./Compiler";
 import ProblemList from "./ProblemList";
 import SimpleCompiler from "./SimpleCompiler";
 import ProblemDetail from "./ProblemDetail";
+import Profile from "./Profile";
 import Home from "./Home";
 import "./App.css";
 import { logout,checkSession } from "./api";
@@ -52,9 +53,14 @@ function App() {
             </Link>
             {
               user && (
-                <Link to= "/problem" className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg font-medium transition">
-                  Problems
+                <>
+                  <Link to= "/problem" className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg font-medium transition">
+                    Problems
                   </Link>
+                  <Link to= "/profile" className="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg font-medium transition">
+                    Profile
+                  </Link>
+                </>
               )
             }
             {!user && (
@@ -110,6 +116,10 @@ function App() {
             <Route
               path="/problem/:id"
               element={user ? <ProblemDetail /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/profile"
+              element={user ? <Profile /> : <Navigate to="/login" />}
             />
           </Routes>
         </div>

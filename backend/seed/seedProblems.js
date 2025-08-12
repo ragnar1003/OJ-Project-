@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+dotenv.config({ path: "backend/.env" });
 import DBconnection from "../database/db.js";
 import Problem from "../model/Problem.js";
 import problems from "./problems.js";
