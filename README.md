@@ -147,12 +147,10 @@ This setup ensures that the code compilation is handled in a secure and isolated
 
 ## Screenshots
 
-*(Please provide screenshots of the application's features. I will add them here.)*
-
-- **Home Page**: ![Home Page](image-placeholder.png)
-- **Problem List**: ![Problem List](image-placeholder.png)
-- **Problem Detail & Editor**: ![Problem Detail](image-placeholder.png)
-- **User Profile**: ![User Profile](image-placeholder.png)
+- **Home Page**: ![Home Page](https://i.postimg.cc/XqJ6WN0n/Screenshot-2025-08-19-140327.png)
+- **Problem List**: ![Problem List](https://i.postimg.cc/bJV16Ly3/Screenshot-2025-08-19-140445.png)
+- **Problem Detail & Editor**: ![Problem Detail](https://i.postimg.cc/Tw3rqB6K/Screenshot-2025-08-19-140558.png)
+- **User Profile**: ![User Profile](https://i.postimg.cc/jjK6CL3Q/Screenshot-2025-08-19-140636.png)
 
 ## Project Links
 
